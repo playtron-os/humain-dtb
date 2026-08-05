@@ -91,22 +91,6 @@
 		regulator-boot-on;
 	};
 
-	vreg_wlan: regulator-wlan {
-		compatible = "regulator-fixed";
-
-		regulator-name = "VREG_WLAN_3P3";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-
-		gpio = <&tlmm 94 GPIO_ACTIVE_HIGH>;
-		enable-active-high;
-
-		pinctrl-0 = <&wlan_reg_en>;
-		pinctrl-names = "default";
-
-		regulator-boot-on;
-	};
-
 	vreg_wwan: regulator-wwan {
 		compatible = "regulator-fixed";
 
@@ -618,8 +602,6 @@
 };
 
 &pcie4 {
-	vddpe-3v3-supply = <&vreg_wlan>;
-
 	pinctrl-0 = <&pcie4_default>;
 	pinctrl-names = "default";
 
