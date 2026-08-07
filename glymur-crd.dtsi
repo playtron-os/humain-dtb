@@ -719,16 +719,16 @@
 
 	status = "okay";
 
-	touchscreen@38 {
-		compatible = "focaltech,ft3d81", "focaltech,ft8112";
-		reg = <0x38>;
+	touchscreen@14 {
+		compatible = "hid-over-i2c";
+		reg = <0x14>;
 
+		hid-descr-addr = <0x1>;
 		interrupts-extended = <&tlmm 51 IRQ_TYPE_LEVEL_LOW>;
 
-		vcc33-supply = <&vreg_misc_3p3>;
-		vccio-supply = <&vreg_l15b_e0_1p8>;
-
-		reset-gpios = <&tlmm 48 GPIO_ACTIVE_LOW>;
+		post-power-on-delay-ms = <200>;
+		vdd-supply = <&vreg_misc_3p3>;
+		vddl-supply = <&vreg_l15b_e0_1p8>;
 
 		pinctrl-0 = <&ts0_default>;
 		pinctrl-names = "default";
