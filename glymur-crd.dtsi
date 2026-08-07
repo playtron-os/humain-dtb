@@ -677,8 +677,8 @@
 
 			vreg_l2p: ldo2 {
 				regulator-name = "vreg_l2p";
-				regulator-min-microvolt = <1200000>;
-				regulator-max-microvolt = <1200000>;
+				regulator-min-microvolt = <1096000>;
+				regulator-max-microvolt = <1112000>;
 			};
 
 			vreg_l3p: ldo3 {
@@ -812,9 +812,9 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 
-	camera@36 {
+	camera@10 {
 		compatible = "ovti,ov08x40";
-		reg = <0x36>;
+		reg = <0x10>;
 
 		reset-gpios = <&tlmm 239 GPIO_ACTIVE_LOW>;
 		pinctrl-0 = <&cam_mclk4_default &cam_reset4_default>;
@@ -826,6 +826,7 @@
 
 		avdd-supply = <&vreg_l7p>;
 		dovdd-supply = <&vreg_l4p>;
+		dvdd-supply = <&vreg_l2p>;
 
 		port {
 			ov08x40_ep: endpoint {
