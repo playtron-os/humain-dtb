@@ -677,8 +677,8 @@
 
 			vreg_l2p: ldo2 {
 				regulator-name = "vreg_l2p";
-				regulator-min-microvolt = <1200000>;
-				regulator-max-microvolt = <1200000>;
+				regulator-min-microvolt = <1096000>;
+				regulator-max-microvolt = <1112000>;
 			};
 
 			vreg_l3p: ldo3 {

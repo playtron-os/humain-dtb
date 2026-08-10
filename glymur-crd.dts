@@ -73,3 +73,36 @@
 		bias-disable;
 	};
 };
+
+/*
+ * CamX camera stack.
+ *
+ * Upstream this lives in glymur-crd-camx.dtso, a device tree OVERLAY that the Qualcomm bootloader
+ * applies when the VendorDtbOverlays efivar names it. That mechanism is unusable here: GRUB loads
+ * a flat blob with `devicetree ($root)/dtb` and discards anything the firmware applied, so the
+ * overlay is folded into the base tree instead. Content is otherwise identical to the .dtso.
+ *
+ * This REPLACES the mainline camss path -- the two are mutually exclusive. camss, cci1 and
+ * cci1_i2c1 are switched off below, and the ov08x40 node in glymur-crd.dtsi is inert because
+ * nothing binds ovti,ov08x40 once camss is gone.
+ */
+#include "glymur-camera.dtsi"
+#include "glymur-camera-sensor.dtsi"
+
+&cam_icp_firmware {
+	camera-firmware {
+		iommus = <&apps_smmu 0x1901 0x0000>;
+	};
+};
+
+&camss {
+	status = "disabled";
+};
+
+&cci1 {
+	status = "disabled";
+};
+
+&cci1_i2c1 {
+	status = "disabled";
+};
