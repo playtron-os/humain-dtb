@@ -1,0 +1,17 @@
+#! /bin/bash
+
+if [[ -z "$LINUX" ]]; then
+	echo "Please set the LINUX variable to the relative location of the linux kernel sources from which to copy files"
+	echo "e.g. \`make update-files LINUX=../linux\`"
+	exit
+fi
+
+QCOM_DIR=$LINUX/arch/arm64/boot/dts/qcom
+
+find . \( -name "*.h" -o -name "*.dtsi" -o -name "*.dts" \) | while read -r file; do
+	if [[ "$file" =~ ./include/dt-bindings/* ]]; then
+		cp "$LINUX/$file" "$file"
+	else
+		cp "$QCOM_DIR/$file" "$file"
+	fi
+done
