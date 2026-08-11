@@ -3,9 +3,9 @@ PP        := glymur-crd.dts.pp
 DTB       := glymur-crd.dtb
 INCLUDES  := -I include
 
-.PHONY: all clean
+.PHONY: dtb clean check-files update-files
 
-all: $(DTB)
+dtb: $(DTB)
 
 $(PP): $(DTS)
 	cpp -nostdinc $(INCLUDES) -undef -x assembler-with-cpp $< $@
@@ -15,3 +15,9 @@ $(DTB): $(PP)
 
 clean:
 	rm -f $(PP) $(DTB)
+
+check-files:
+	./scripts/check-files
+
+update-files:
+	./scripts/update-files
