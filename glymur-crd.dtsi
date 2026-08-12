@@ -1008,6 +1008,7 @@
 
 &pmk8850_rtc {
 	qcom,no-alarm;
+	qcom,uefi-rtc-info;
 };
 
 &pon_resin {
