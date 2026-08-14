@@ -72,10 +72,8 @@
 	sound {
 		compatible = "qcom,glymur-sndcard";
 		model = "GLYMUR-CRD";
-		audio-routing = "WooferLeft IN", "WSA WSA_SPK1 OUT",
-				"TweeterLeft IN", "WSA WSA_SPK2 OUT",
-				"WooferRight IN", "WSA2 WSA_SPK1 OUT",
-				"TweeterRight IN", "WSA2 WSA_SPK2 OUT",
+		audio-routing =	"SpkrLeft IN", "WSA WSA_SPK1 OUT",
+				"SpkrRight IN", "WSA WSA_SPK2 OUT",
 				"VA DMIC0", "vdd-micb",
 				"VA DMIC1", "vdd-micb",
 				"VA DMIC2", "vdd-micb",
@@ -89,10 +87,8 @@
 			};
 
 			codec {
-				sound-dai = <&left_woofer>, <&left_tweeter>,
-					    <&swr0 0>, <&lpass_wsamacro 0>,
-					    <&right_woofer>, <&right_tweeter>,
-					    <&swr3 0>, <&lpass_wsa2macro 0>;
+				sound-dai = <&left_spkr>, <&right_spkr>,
+					    <&swr0 0>, <&lpass_wsamacro 0>;
 			};
 
 			platform {
@@ -1019,28 +1015,30 @@
 &swr0 {
 	status = "okay";
 
-	/* WSA8845, Left Woofer */
-	left_woofer: speaker@0,0 {
+	/* WSA8845, Left Speaker */
+	left_spkr: speaker@0,0 {
 		compatible = "sdw20217020400";
 		reg = <0 0>;
 		reset-gpios = <&lpass_tlmm 12 GPIO_ACTIVE_LOW>;
 		#sound-dai-cells = <0>;
-		sound-name-prefix = "WooferLeft";
+		sound-name-prefix = "SpkrLeft";
 		vdd-1p8-supply = <&vreg_l15b_e0_1p8>;
 		vdd-io-supply = <&vreg_l18b_e0_1p2>;
-		qcom,port-mapping = <1 2 3 7 12 14>;
+		qcom,port-mapping = <1 2 3 7 10 13>;
+		qcom,ext-vdd-spkr;
 	};
 
-	/* WSA8845, Left Tweeter */
-	left_tweeter: speaker@0,1 {
+	/* WSA8845, Left Speaker */
+	right_spkr: speaker@0,1 {
 		compatible = "sdw20217020400";
 		reg = <0 1>;
 		reset-gpios = <&lpass_tlmm 12 GPIO_ACTIVE_LOW>;
 		#sound-dai-cells = <0>;
-		sound-name-prefix = "TweeterLeft";
+		sound-name-prefix = "SpkrRight";
 		vdd-1p8-supply = <&vreg_l15b_e0_1p8>;
 		vdd-io-supply = <&vreg_l18b_e0_1p2>;
-		qcom,port-mapping = <4 5 6 7 13 15>;
+		qcom,port-mapping = <4 5 6 7 11 13>;
+		qcom,ext-vdd-spkr;
 	};
 };
 
