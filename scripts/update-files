@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
 if [[ -z "$LINUX" ]]; then
 	echo "Please set the LINUX variable to the relative location of the linux kernel sources from which to copy files"

@@ -1,0 +1,52 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * CamX camera stack, as a device tree overlay.
+ *
+ * Named to match Qualcomm's upstream glymur-crd-camx.dtso, which their bootloader applies when the
+ * VendorDtbOverlays efivar names it. That runtime path does not exist here -- GRUB loads a flat
+ * blob with `devicetree ($root)/dtb` and discards anything firmware applied -- so the Makefile
+ * applies this with fdtoverlay at BUILD time instead. Same convention, same content, one blob out.
+ *
+ * REPLACES the mainline camss path; the two are mutually exclusive. camss, cci1 and cci1_i2c1 are
+ * switched off below, and the ov08x40 node in glymur-crd.dtsi goes inert once camss is gone because
+ * nothing binds ovti,ov08x40.
+ *
+ * Applying this needs a base built with `dtc -@` so it carries __symbols__ for soc, camss, cci1,
+ * cci1_i2c1 and apps_smmu.
+ */
+
+/dts-v1/;
+/plugin/;
+
+/*
+ * The camera .dtsi files only include their own bindings (msm-camera, camcc). In the base build the
+ * rest came in via glymur.dtsi; an overlay has no such parent, so pull them in here.
+ */
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interconnect/qcom,icc.h>
+#include <dt-bindings/interconnect/qcom,glymur-rpmh.h>
+#include <dt-bindings/clock/qcom,glymur-gcc.h>
+#include <dt-bindings/power/qcom,rpmhpd.h>
+
+#include "glymur-camera.dtsi"
+#include "glymur-camera-sensor.dtsi"
+
+&cam_icp_firmware {
+	camera-firmware {
+		iommus = <&apps_smmu 0x1901 0x0000>;
+	};
+};
+
+&camss {
+	status = "disabled";
+};
+
+&cci1 {
+	status = "disabled";
+};
+
+&cci1_i2c1 {
+	status = "disabled";
+};
