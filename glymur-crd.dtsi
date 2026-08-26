@@ -1341,7 +1341,7 @@
 };
 
 &usb_0 {
-	dr_mode = "host";
+	role-switch-default-mode = "host";
 
 	status = "okay";
 };
@@ -1372,7 +1372,7 @@
 };
 
 &usb_1 {
-	dr_mode = "host";
+	role-switch-default-mode = "host";
 
 	status = "okay";
 };
