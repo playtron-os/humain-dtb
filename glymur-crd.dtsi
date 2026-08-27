@@ -1061,7 +1061,34 @@
 
 &pmk8850_rtc {
 	qcom,no-alarm;
-	qcom,uefi-rtc-info;
+
+	/*
+	 * Persist the RTC offset in PMIC SDAM rather than a UEFI variable.
+	 *
+	 * qcom,uefi-rtc-info makes rtc-pm8xxx read its offset from the "RTCInfo" EFI
+	 * variable (GUID 882f8c2b-9646-435f-...). This board's firmware does not define
+	 * it -- of 89 efivars, RTCInfo is absent -- so efivar_get_variable() returns
+	 * EFI_NOT_FOUND, efi_status_to_err() maps it to -ENOENT, and probe fails outright
+	 * rather than falling back:
+	 *
+	 *   rtc-pm8xxx c426000.spmi:pmic@0:rtc@6100: probe with driver rtc-pm8xxx failed with error -2
+	 *
+	 * That left the board with no usable RTC at all. The only other one is
+	 * rtc_qcom_glink, whose firmware never answers opcode 0x68, so hctosys failed and
+	 * every boot started at a bogus epoch.
+	 *
+	 * SDAM is battery-backed PMIC RAM and needs no firmware cooperation, which is what
+	 * upstream sc8280xp/x1e80100 boards use. Offset 0xbc follows their convention and
+	 * is clear of reboot-reason@48 inside the SDAM's 0x100 window.
+	 */
+	nvmem-cells = <&rtc_offset>;
+	nvmem-cell-names = "offset";
+};
+
+&pmk8850_sdam_2 {
+	rtc_offset: rtc-offset@bc {
+		reg = <0xbc 0x4>;
+	};
 };
 
 &pmk8850_vadc {
