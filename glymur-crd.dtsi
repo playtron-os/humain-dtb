@@ -1508,6 +1508,8 @@
 };
 
 &usb_0 {
+	/* Takes pin assignments from the Type-C port, to clock the controller while all lanes carry DP */
+	mode-switch;
 	role-switch-default-mode = "host";
 
 	status = "okay";
@@ -1539,6 +1541,8 @@
 };
 
 &usb_1 {
+	/* Takes pin assignments from the Type-C port, to clock the controller while all lanes carry DP */
+	mode-switch;
 	role-switch-default-mode = "host";
 
 	status = "okay";
